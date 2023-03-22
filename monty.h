@@ -44,7 +44,7 @@ typedef struct instruction_s
 void pall(stack_t **t, unsigned int line_number);
 void free_dlist(stack_t **head);
 int add_end_dnode(stack_t **head, int n);
-void push(stack_t **t, unsigned int line_number, const char *n);
+void push(stack_t **t, unsigned int line_number);
 int is_number(const char *input);
 void opening_error(char **argv);
 void instruction_error(char *instruction, unsigned int line_number);
@@ -54,6 +54,8 @@ void open_read(char **argv);
 int is_comment(char *token, int line_number);
 void free_stack(stack_t *top);
 void (*get_op(char *tok, unsigned int line_number))(stack_t **stack, unsigned int);
+ssize_t _getline(char** lineptr, size_t* n, FILE* stream);
+
 
 
 

@@ -11,19 +11,22 @@ void (*get_op(char *tok, unsigned int line_number))(stack_t **stack, unsigned in
 {
 	instruction_t opcode[] = {
 		{"pall", pall},
+		{"push", push},
 		{NULL, NULL}
 	};
-	int a;
+	int a = 0;
 
-	for (a = 0; opcode[a].opcode != NULL; a++)
+	while (opcode[a].opcode != NULL)
 	{
 
 		if (strcmp(tok, opcode[a].opcode) == 0)
 		{
 			return (opcode[a].f);
 		}
+		a++;
 	}
 	instruction_error(tok, line_number);
 	return (NULL);
+	
 }
 

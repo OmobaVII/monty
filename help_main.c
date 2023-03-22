@@ -1,5 +1,4 @@
 #include "monty.h"
-#include <stdio.h>
 
 int number;
 /**
@@ -11,7 +10,9 @@ void open_read(char **argv)
 {
 	void (*func)(stack_t **, unsigned int);
 	FILE *fp;
-	char *buf = NULL, *token = NULL, command[1024];
+	char *buf = NULL;
+       	char *token = NULL;
+	char command[1024];
 	size_t len = 0;
 	ssize_t line_size;
 	unsigned int line_counter = 1;
@@ -20,17 +21,17 @@ void open_read(char **argv)
 	fp = fopen(argv[1], "r");
 	if (fp == NULL)
 		opening_error(argv);
-	while ((line_size = getline(&buf, &len, fp)) != EOF)
+	while ((line_size = _getline(&buf, &len, fp)) != EOF)
 	{
 		token = strtok(buf, "\n\t\r ");
-		if (token == '\0')
+		if (token == NULL)
 			continue;
 		strcpy(command, token);
 		if (is_comment(token, line_counter) == 1)
 			continue;
 		if (strcmp(token, "push") == 0)
 		{
-			token = strtok(NULL, "\n\t\r ");
+			token = strtok(NULL, "\n\t\a\r ;:");
 			if (token == NULL || is_number(token) == -1)
 				not_int_err(line_counter);
 			number = atoi(token);

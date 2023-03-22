@@ -51,3 +51,20 @@ void free_stack(stack_t *top)
 	}
 	free(top);
 }
+/**
+ * free_dlist - a function that frees a double linked list
+ * @head: the double linked list
+ * Return: void
+ */
+void free_dlist(stack_t **head)
+{
+	if (head == NULL)
+		return;
+
+	while (*head && (*head)->next)
+	{
+		*head = (*head)->next;
+		free((*head)->prev);
+	}
+	free(*head);
+}

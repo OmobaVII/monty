@@ -1,5 +1,6 @@
 #include "monty.h"
 
+int number;
 /**
  * pall - a function that prints all nodes in a stack
  * @t: the head of the list
@@ -55,22 +56,27 @@ int is_number(const char *input)
  * @n: integer
  */
 
-void push(stack_t **t, unsigned int line_number, const char *n)
+void push(stack_t **t, unsigned int line_number)
 {
-	if (t == NULL)
-		return;
-	if (is_number(n) == -1)
+	stack_t *new;
+	(void)line_number;
+
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
+		malloc_error();
+
+	new->n = number;
+	new->prev = NULL;
+
+	if (*t == NULL)
 	{
-		fprintf(stderr, "L%u: usage: push integer\n", line_number);
-		free_dlist(t);
-		exit(EXIT_FAILURE);
+		new->next = NULL;
+		*t = new;
 	}
 	else
 	{
-		if (add_end_dnode(t, atoi(n)) == -1)
-		{
-			free_dlist(t);
-			exit(EXIT_FAILURE);
-		}
+		new->next = *t;
+		(*t)->prev = new;
+		*t = new;
 	}
 }
