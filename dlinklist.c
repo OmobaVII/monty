@@ -16,7 +16,7 @@ int add_end_dnode(stack_t **head, int n)
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
-		printf("Error: malloc failed");
+		fprintf(stderr, "Error: malloc failed");
 		return (-1);
 	}
 	new->n = n;

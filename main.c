@@ -1,34 +1,34 @@
 #include "monty.h"
 
+#define BUFFER_SIZE 10000
 /**
- * main - entry into the program
+ * main - the entry to the program
  * @argc: the number of arguments
  * @argv: the arguments
- * Return: 0 if successful
+ * Return: 0 for success
  */
 
 int main(int argc, char *argv[])
 {
-	int fd, i_push = 0;
-	ssize_t n_read;
-	unsigned int line = 1;
-	char *buffer, *token;
-	stack_t *t = NULL;
+	char *buffer;
+	stack_t *stack;
+	int fd, n_read, line_number;
 
 	if (argc != 2)
-	{
-		printf("USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
+		error_exit("USAGE: monty file\n");
+
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		printf("Error: Can't open file %s\n", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	buffer = malloc(sizeof(char) * 10000);
 	if (buffer == NULL)
-		return (0);
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
 	n_read = read(fd, buffer, 10000);
 	if (n_read == -1)
 	{
@@ -36,40 +36,92 @@ int main(int argc, char *argv[])
 		close(fd);
 		exit(EXIT_FAILURE);
 	}
+	stack = NULL;
+	line_number = 1;
+	parse_commands(buffer, &stack, &line_number);
+
+	free_stack(stack);
+	free(buffer);
+	return (0);
+}
+/**
+ * parse_commands - a function that performs the command
+ * @buffer: the command read
+ * @stack: the command
+ * @line_number: the line in which the command is located
+ * Return: void
+ */
+void parse_commands(char *buffer, stack_t **stack, int *line_number)
+{
+	char *token;
+	int is_push = 0;
+
 	token = strtok(buffer, "\n\t\a\r ;:");
 	while (token != NULL)
 	{
-		if (i_push == 1)
+		if (is_push)
 		{
-			push(&t, line, token);
-			i_push = 0;
-			token = strtok(NULL, "\n\t\a\r ;:");
-			line++;
-			continue;
+			push(stack, *line_number, token);
+			is_push = 0;
 		}
 		else if (strcmp(token, "push") == 0)
 		{
-			i_push = 1;
-			token = strtok(NULL, "\n\t\a\r ;:");
-			continue;
+			is_push = 1;
 		}
 		else
 		{
-			if (get_op(token) != 0)
-			{
-				get_op(token)(&t, line);
-			}
-			else
-			{
-				free_dlist(&t);
-				printf("L%d: unknown instruction %s\n", line, token);
-				exit(EXIT_FAILURE);
-			}
+			execute_command(token, stack, *line_number);
 		}
-		line++;
 		token = strtok(NULL, "\n\t\a\r ;:");
+		(*line_number)++;
 	}
-	free_dlist(&t);	free(buffer);
-	close(fd);
-	return (0);
+}
+/**
+ * execute_command - a function that executes the command
+ * @command: the command to execute
+ * @stack: the stack list
+ * @line_number: the number of the line we find the command
+ * Return: void
+ */
+void execute_command(char *command, stack_t **stack, int line_number)
+{
+	void (*op_func)(stack_t **, unsigned int);
+
+	op_func = get_op(command);
+	if (op_func == NULL)
+	{
+		error_exit("L%d: unknown instruction %s\n", line_number, command);
+	}
+	op_func(stack, line_number);
+}
+/**
+ * error_exit - controls how to perform errors
+ * @msg: the error msg
+ * Return: void
+ */
+void error_exit(char *msg, ...)
+{
+	va_list args;
+
+	va_start(args, msg);
+	fprintf(stderr, msg, args);
+	va_end(args);
+
+	exit(EXIT_FAILURE);
+}
+/**
+ * free_stack - a function that frees the stack
+ * @stack: the stack to free
+ * Return: void
+ */
+void free_stack(stack_t *stack)
+{
+	stack_t *node;
+
+	while (stack != NULL)
+	{
+		node = stack;
+		stack = stack->next;
+		free(node);
+	}
 }
