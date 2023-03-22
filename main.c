@@ -15,7 +15,10 @@ int main(int argc, char *argv[])
 	int fd, n_read, line_number;
 
 	if (argc != 2)
-		error_exit("USAGE: monty file\n");
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		exit(EXIT_FAILURE);
+	}
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
