@@ -43,7 +43,7 @@ int is_number(const char *input)
 	}
 	for (; input[i] != '\0'; i++)
 	{
-		if(!isdigit(input[i]))
+		if (!isdigit(input[i]))
 			return (-1);
 	}
 	return (negative ? 0 : 1);
@@ -61,7 +61,7 @@ void push(stack_t **t, unsigned int line_number, const char *n)
 		return;
 	if (is_number(n) == -1)
 	{
-		fprintf( stderr,"L%u: usage: push integer\n", line_number);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		free_dlist(t);
 		exit(EXIT_FAILURE);
 	}
