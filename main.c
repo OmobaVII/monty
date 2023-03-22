@@ -90,24 +90,10 @@ void execute_command(char *command, stack_t **stack, int line_number)
 	op_func = get_op(command);
 	if (op_func == NULL)
 	{
-		error_exit("L%d: unknown instruction %s\n", line_number, command);
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, command);
+		exit(EXIT_FAILURE);
 	}
 	op_func(stack, line_number);
-}
-/**
- * error_exit - controls how to perform errors
- * @msg: the error msg
- * Return: void
- */
-void error_exit(char *msg, ...)
-{
-	va_list args;
-
-	va_start(args, msg);
-	fprintf(stderr, msg, args);
-	va_end(args);
-
-	exit(EXIT_FAILURE);
 }
 /**
  * free_stack - a function that frees the stack
