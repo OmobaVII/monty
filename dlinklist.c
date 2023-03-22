@@ -35,21 +35,19 @@ int add_end_dnode(stack_t **head, int n)
 	return (0);
 }
 /**
- * free_dlist - a function that frees a double linked list
- * @head: a pointer to the head of the list
+ * free_stack - a function that frees a stack
+ * @top: a pointer to the top of the stack
  * Return: void
  */
-void free_dlist(stack_t **head)
+void free_stack(stack_t *top)
 {
-	stack_t *current, *next;
+	stack_t *ptr;
 
-	if (head == NULL)
-		return;
-	current = *head;
-	while (current != NULL)
+	if (top != NULL)
 	{
-		next = current->next;
-		free(current);
-		current = next;
+		ptr = top;
+		top = top->next;
+		free(ptr);
 	}
+	free(top);
 }

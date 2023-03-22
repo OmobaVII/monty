@@ -44,13 +44,17 @@ typedef struct instruction_s
 void pall(stack_t **t, unsigned int line_number);
 void free_dlist(stack_t **head);
 int add_end_dnode(stack_t **head, int n);
-void (*get_op(char *tok))(stack_t **stack, unsigned int line_number);
 void push(stack_t **t, unsigned int line_number, const char *n);
 int is_number(const char *input);
-void error_exit(char *msg, ...);
-void execute_command(char *command, stack_t **stack, int line_number);
-void parse_commands(char *buffer, stack_t **stack, int *line_number);
-void free_stack(stack_t *stack);
+void opening_error(char **argv);
+void instruction_error(char *instruction, unsigned int line_number);
+void not_int_err(unsigned int line);
+void malloc_error(void);
+void open_read(char **argv);
+int is_comment(char *token, int line_number);
+void free_stack(stack_t *top);
+void (*get_op(char *tok, unsigned int line_number))(stack_t **stack, unsigned int);
+
 
 
 #endif
