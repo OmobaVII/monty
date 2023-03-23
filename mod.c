@@ -29,7 +29,7 @@ void mod(stack_t **top, unsigned int count)
 	ptr = *top;
 	if (ptr->n == 0)
 	{
-		fprintf(stderr, "L%d: division by zero", count);
+		fprintf(stderr, "L%d: division by zero\n", count);
 		fclose(bus.fp);
 		free(bus.file_content);
 		free_stack(*top);
