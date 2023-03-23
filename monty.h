@@ -76,6 +76,7 @@ void mod(stack_t **top, unsigned int count);
 void pchar(stack_t **top, unsigned int count);
 void pstr(stack_t **top, unsigned int count);
 void rotate(stack_t **top, unsigned int count);
+void rotr(stack_t **top, unsigned int count);
 
 
 
