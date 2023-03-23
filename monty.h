@@ -40,22 +40,30 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+/**
+ * struct bus_s - variables arguments, file and line content
+ * @arg: value
+ * @fp: pointer to a monty file
+ * @file_content: the line content
+ * @lifi: flag change stack <-> queue
+ */
+typedef struct bus_s
+{
+	char *arg;
+	FILE *fp;
+	char *file_content;
+	int lifi;
+} bus_t;
+extern bus_t bus;
 
-void pall(stack_t **t, unsigned int line_number);
-void free_dlist(stack_t **head);
-int add_end_dnode(stack_t **head, int n);
-void push(stack_t **t, unsigned int line_number);
-int is_number(const char *input);
-void opening_error(char **argv);
-void instruction_error(char *instruction, unsigned int line_number);
-void not_int_err(unsigned int line);
-void malloc_error(void);
-void open_read(char **argv);
-int is_comment(char *token, int line_number);
+ssize_t getline(char **lineptr, size_t *size, FILE *stream);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+void push(stack_t **top, unsigned int count);
+void pall(stack_t **top, unsigned int count);
 void free_stack(stack_t *top);
-void (*get_op(char *tok, unsigned int line_number))(stack_t **stack, unsigned int);
-ssize_t _getline(char** lineptr, size_t* n, FILE* stream);
-
+void addnode(stack_t **top, int n);
+void addqueue(stack_t **top, int n);
+int execute(char *file_content, stack_t **stack, unsigned int count, FILE *fp);
 
 
 

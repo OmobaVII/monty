@@ -1,82 +1,64 @@
 #include "monty.h"
 
-int number;
 /**
- * pall - a function that prints all nodes in a stack
- * @t: the head of the list
- * @line_number: the bytecode line number
+ * pall - a function that prints the stack
+ * @top: the top of the stack
+ * @count: useless parameter;
+ * Return: void
  */
-
-void pall(stack_t **t, unsigned int line_number)
+void pall(stack_t **top, unsigned int count)
 {
-	stack_t *temp;
+	stack_t *ptr;
+	(void)count;
 
-	temp = NULL;
-
-	if (t == NULL || *t == NULL)
-	{
+	ptr = *top;
+	if (ptr == NULL)
 		return;
-	}
-	(void)line_number;
-	temp = *t;
-	while (temp != NULL)
+	while (ptr != NULL)
 	{
-		printf("%d\n", temp->n);
-		temp = temp->next;
+		printf("%d\n", ptr->n);
+		ptr = ptr->next;
 	}
 }
 /**
- * is_number - a function that checks if an input is a number
- * @n: the input
- * Return: 0 if a number and -1 if not
+ * push - a function that adds to a stack
+ * @top: the top of the stack
+ * @count: the line number
+ * Return: void
  */
-int is_number(const char *input)
+void push(stack_t **top, unsigned int count)
 {
-	int i, negative;
+	int a, b = 0, flag = 0;
 
-	i = 0;
-	negative = 0;
-
-	if (input[i] == '-')
+	if (bus.arg)
 	{
-		negative = 1;
-		i++;
-	}
-	for (; input[i] != '\0'; i++)
-	{
-		if (!isdigit(input[i]))
-			return (-1);
-	}
-	return (negative ? 0 : 1);
-}
-/**
- * push - a function that adds a node to the start of a dlinkedlist
- * @t: the head of the linked list
- * @line_number: bytecode line number
- * @n: integer
- */
-
-void push(stack_t **t, unsigned int line_number)
-{
-	stack_t *new;
-	(void)line_number;
-
-	new = malloc(sizeof(stack_t));
-	if (new == NULL)
-		malloc_error();
-
-	new->n = number;
-	new->prev = NULL;
-
-	if (*t == NULL)
-	{
-		new->next = NULL;
-		*t = new;
+		if (bus.arg[0] == '-')
+			b++;
+		for (; bus.arg[b] != '\0'; b++)
+		{
+			if (bus.arg[b] > 57 || bus.arg[b] < 48)
+				flag = 1;
+		}
+		if (flag == 1)
+		{
+			fprintf(stderr, "L%d: usage: push integer\n", count);
+			fclose(bus.fp);
+			free(bus.file_content);
+			free_stack(*top);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
-		new->next = *t;
-		(*t)->prev = new;
-		*t = new;
+		fprintf(stderr, "L%d: usage: psuh integer\n", count);
+		fclose(bus.fp);
+		free(bus.file_content);
+		free_stack(*top);
+		exit(EXIT_FAILURE);
 	}
+	a = atoi(bus.arg);
+	if (bus.lifi == 0)
+		addnode(top, a);
+	else
+		addqueue(top, a);
 }
