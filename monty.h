@@ -74,6 +74,8 @@ void div1(stack_t **top, unsigned int count);
 void mul(stack_t **top, unsigned int count);
 void mod(stack_t **top, unsigned int count);
 void pchar(stack_t **top, unsigned int count);
+void pstr(stack_t **top, unsigned int count);
+
 
 
 #endif
