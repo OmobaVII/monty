@@ -20,6 +20,7 @@ int execute(char *file_content, stack_t **stack, unsigned int count, FILE *fp)
 				{"sub", sub},
 				{"div", div1},
 				{"mul", mul},
+				{"mod", mod},
 				{NULL, NULL}
 	};
 	unsigned int a = 0;

@@ -72,6 +72,7 @@ void nop(stack_t **top, unsigned int count);
 void sub(stack_t **top, unsigned int count);
 void div1(stack_t **top, unsigned int count);
 void mul(stack_t **top, unsigned int count);
+void mod(stack_t **top, unsigned int count);
 
 
 
