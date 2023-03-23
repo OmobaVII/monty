@@ -12,10 +12,7 @@ void pstr(stack_t **top, unsigned int count)
 	(void) count;
 
 	ptr = *top;
-	if (ptr == NULL)
-	{
-		printf("\n");
-	}
+
 	while (ptr != NULL)
 	{
 		if (ptr->n > 127 || ptr->n <= 0)
