@@ -67,6 +67,7 @@ int execute(char *file_content, stack_t **stack, unsigned int count, FILE *fp);
 void pint(stack_t **top, unsigned int count);
 void pop(stack_t **top, unsigned int count);
 void swap(stack_t **top, unsigned int count);
+void add(stack_t **top, unsigned int count);
 
 
 
