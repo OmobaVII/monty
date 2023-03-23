@@ -12,7 +12,7 @@ void pint(stack_t **top, unsigned int count)
 	if (*top == NULL)
 	{
 		fprintf(stderr, "L%u: can't pint, stack empty", count);
-		fclose(bus.file);
+		fclose(bus.fp);
 		free(bus.file_content);
 		free_stack(*top);
 		exit(EXIT_FAILURE);
