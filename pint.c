@@ -9,7 +9,7 @@
 
 void pint(stack_t **top, unsigned int count)
 {
-	if (*top == NULL)
+	if (*top == NULL || top == NULL)
 	{
 		fprintf(stderr, "L%u: can't pint, stack empty", count);
 		fclose(bus.fp);
