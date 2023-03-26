@@ -50,7 +50,7 @@ void push(stack_t **top, unsigned int count)
 	}
 	else
 	{
-		fprintf(stderr, "L%d: usage: psuh integer\n", count);
+		fprintf(stderr, "L%d: usage: push integer\n", count);
 		fclose(bus.fp);
 		free(bus.file_content);
 		free_stack(*top);
